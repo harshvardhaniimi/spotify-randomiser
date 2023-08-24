@@ -72,7 +72,7 @@ append_to_csv(df)
 # Finally...
 # Create a new playlist
 user_id = sp.me()['id']
-playlist = sp.user_playlist_create(user_id, 'random', public=True, description='This week's random songs that I haven't listened in a while')
+playlist = sp.user_playlist_create(user_id, 'random', public=True, description="This week's random songs that I haven't listened in a while")
 
 # Add selected tracks to the new playlist
 sp.playlist_add_items(playlist['id'], selected_tracks)
