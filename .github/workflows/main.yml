@@ -2,6 +2,7 @@ name: Create Randomised Spotify Playlist
 on:
   schedule:
     - cron: '0 0 * * MON' # Runs every Monday
+  workflow_dispatch: # Allows manual trigger
 
 jobs:
   build:
