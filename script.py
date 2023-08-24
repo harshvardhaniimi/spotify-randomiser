@@ -3,12 +3,17 @@ from spotipy.oauth2 import SpotifyOAuth
 import random
 import datetime
 import pandas as pd
+import os
 
-# Read credentials from text file
-with open('credentials.txt', 'r') as file:
-    lines = file.readlines()
-    client_id = lines[0].strip()
-    client_secret = lines[1].strip()
+
+# # Read credentials from text file
+# with open('credentials.txt', 'r') as file:
+#     lines = file.readlines()
+#     client_id = lines[0].strip()
+#     client_secret = lines[1].strip()
+
+client_id = os.environ['SPOTIPY_CLIENT_ID']
+client_secret = os.environ['SPOTIPY_CLIENT_SECRET']
 
 # Set up spotipy
 # Note: I have set up a redirect URI in my Spotify developer dashboard
