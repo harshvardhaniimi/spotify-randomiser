@@ -1,0 +1,20 @@
+name: Create Randomised Spotify Playlist
+on:
+  schedule:
+    - cron: '0 0 * * MON' # Runs every Monday
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: Install dependencies
+        run: pip install spotipy
+      - name: Run script
+        run: python script.py
+      - name: Print it worked
+        run: echo "It's working! Enjoy :)"
