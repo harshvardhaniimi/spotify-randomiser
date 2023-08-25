@@ -14,12 +14,17 @@ import os
 
 client_id = os.environ['SPOTIPY_CLIENT_ID']
 client_secret = os.environ['SPOTIPY_CLIENT_SECRET']
+refresh_token = os.environ['SPOTIPY_REFRESH_TOKEN']
 
 # Set up spotipy
 # Note: I have set up a redirect URI in my Spotify developer dashboard
 # See https://community.spotify.com/t5/Spotify-for-Developers/Redirect-URI-needed/td-p/5067419
 # for a discussion on why this is necessary and why to use localhost:8000
-sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id, client_secret=client_secret, redirect_uri="http://localhost:8000/", scope="playlist-modify-public user-library-read user-read-recently-played"))
+sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id, 
+                                               client_secret=client_secret, 
+                                               redirect_uri="http://localhost:8000/", 
+                                               scope="playlist-modify-public user-library-read user-read-recently-played",
+                                               refresh_token=refresh_token))
 
 # Get all liked songs
 # Since i have over 3000 songs, i need to get them in batches
@@ -59,8 +64,8 @@ selected_tracks_names
 # Store these selected tracks in a CSV file for record keeping
 # Save a pandas data frame with selected tracks and a today's date and time as a CSV file
 df = pd.DataFrame({'date': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),     
-              'track_name': selected_tracks_names,
-              'track_id': selected_tracks})
+            'track_name': selected_tracks_names,
+            'track_id': selected_tracks})
 
 # if df exists, append to it
 # if not, create it
