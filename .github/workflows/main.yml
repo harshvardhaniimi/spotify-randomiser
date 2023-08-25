@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: pip install spotipy pandas
       - name: Run script
-        run: python script2.py
+        run: python script.py
       - name: Save CSV as artifact
         uses: actions/upload-artifact@v3
         with:

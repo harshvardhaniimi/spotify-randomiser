@@ -1,30 +1,30 @@
 import spotipy
-from spotipy.oauth2 import SpotifyOAuth
+import requests
+import os
 import random
 import datetime
 import pandas as pd
-import os
+import base64
 
-
-# # Read credentials from text file
-# with open('credentials.txt', 'r') as file:
-#     lines = file.readlines()
-#     client_id = lines[0].strip()
-#     client_secret = lines[1].strip()
+# Function to refresh access token
+def refresh_access_token(refresh_token):
+    client_id = os.environ['SPOTIPY_CLIENT_ID']
+    client_secret = os.environ['SPOTIPY_CLIENT_SECRET']
+    payload = {
+        'grant_type': 'refresh_token',
+        'refresh_token': refresh_token,
+    }
+    auth_header = {'Authorization': 'Basic ' + base64.b64encode((client_id + ':' + client_secret).encode()).decode()}
+    response = requests.post('https://accounts.spotify.com/api/token', data=payload, headers=auth_header)
+    return response.json().get('access_token')
 
 client_id = os.environ['SPOTIPY_CLIENT_ID']
 client_secret = os.environ['SPOTIPY_CLIENT_SECRET']
 refresh_token = os.environ['SPOTIPY_REFRESH_TOKEN']
+new_access_token = refresh_access_token(refresh_token)
 
-# Set up spotipy
-# Note: I have set up a redirect URI in my Spotify developer dashboard
-# See https://community.spotify.com/t5/Spotify-for-Developers/Redirect-URI-needed/td-p/5067419
-# for a discussion on why this is necessary and why to use localhost:8000
-sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=client_id, 
-                                               client_secret=client_secret, 
-                                               redirect_uri="http://localhost:8000/", 
-                                               scope="playlist-modify-public user-library-read user-read-recently-played",
-                                               refresh_token=refresh_token))
+# Set up Spotipy
+sp = spotipy.Spotify(auth=new_access_token)
 
 # Get all liked songs
 # Since i have over 3000 songs, i need to get them in batches
@@ -75,14 +75,31 @@ def append_to_csv(df):
         df = pd.concat([existing_df, df])
     except:
         pass
-    df.to_csv('selected_tracks.csv', index=False)
+    df.to_csv('./selected_tracks.csv', index=False)
     
 append_to_csv(df)
 
 # Finally...
-# Create a new playlist
+# Create a new playlist or get an existing one
 user_id = sp.me()['id']
-playlist = sp.user_playlist_create(user_id, 'random', public=True, description="This week's random songs that I haven't listened in a while")
+playlist_name = 'random'
+playlists = sp.user_playlists(user_id)
+existing_playlist_id = None
 
-# Add selected tracks to the new playlist
-sp.playlist_add_items(playlist['id'], selected_tracks)
+# Check if a playlist with the same name already exists
+for playlist in playlists['items']:
+    if playlist['name'] == playlist_name:
+        existing_playlist_id = playlist['id']
+        break
+
+# If it exists, clear the tracks
+if existing_playlist_id:
+    sp.playlist_replace_items(existing_playlist_id, [])
+    playlist_id = existing_playlist_id
+else:
+    # If it doesn't exist, create a new one
+    playlist = sp.user_playlist_create(user_id, playlist_name, public=True, description="This week's random songs that I haven't listened in a while")
+    playlist_id = playlist['id']
+
+# Add selected tracks to the playlist
+sp.playlist_add_items(playlist_id, selected_tracks)
