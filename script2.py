@@ -4,6 +4,7 @@ import os
 import random
 import datetime
 import pandas as pd
+import base64
 
 # Function to refresh access token
 def refresh_access_token(refresh_token):
@@ -13,7 +14,7 @@ def refresh_access_token(refresh_token):
         'grant_type': 'refresh_token',
         'refresh_token': refresh_token,
     }
-    auth_header = {'Authorization': 'Basic ' + (client_id + ':' + client_secret).encode().base64()}
+    auth_header = {'Authorization': 'Basic ' + base64.b64encode((client_id + ':' + client_secret).encode()).decode()}
     response = requests.post('https://accounts.spotify.com/api/token', data=payload, headers=auth_header)
     return response.json().get('access_token')
 
