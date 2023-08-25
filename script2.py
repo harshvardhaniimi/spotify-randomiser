@@ -75,7 +75,7 @@ def append_to_csv(df):
         df = pd.concat([existing_df, df])
     except:
         pass
-    df.to_csv('selected_tracks.csv', index=False)
+    df.to_csv('./selected_tracks.csv', index=False)
     
 append_to_csv(df)
 

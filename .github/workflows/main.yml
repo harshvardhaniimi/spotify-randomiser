@@ -23,5 +23,11 @@ jobs:
         run: pip install spotipy pandas
       - name: Run script
         run: python script2.py
+      - name: Save CSV as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: selected_tracks.csv
+          path: ./selected_tracks.csv
+
       - name: Print it worked
         run: echo "It's working! Enjoy :)"
