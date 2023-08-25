@@ -80,9 +80,26 @@ def append_to_csv(df):
 append_to_csv(df)
 
 # Finally...
-# Create a new playlist
+# Create a new playlist or get an existing one
 user_id = sp.me()['id']
-playlist = sp.user_playlist_create(user_id, 'random', public=True, description="This week's random songs that I haven't listened in a while")
+playlist_name = 'random'
+playlists = sp.user_playlists(user_id)
+existing_playlist_id = None
 
-# Add selected tracks to the new playlist
-sp.playlist_add_items(playlist['id'], selected_tracks)
+# Check if a playlist with the same name already exists
+for playlist in playlists['items']:
+    if playlist['name'] == playlist_name:
+        existing_playlist_id = playlist['id']
+        break
+
+# If it exists, clear the tracks
+if existing_playlist_id:
+    sp.playlist_replace_items(existing_playlist_id, [])
+    playlist_id = existing_playlist_id
+else:
+    # If it doesn't exist, create a new one
+    playlist = sp.user_playlist_create(user_id, playlist_name, public=True, description="This week's random songs that I haven't listened in a while")
+    playlist_id = playlist['id']
+
+# Add selected tracks to the playlist
+sp.playlist_add_items(playlist_id, selected_tracks)
