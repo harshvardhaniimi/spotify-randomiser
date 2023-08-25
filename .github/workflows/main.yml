@@ -22,6 +22,6 @@ jobs:
       - name: Install dependencies
         run: pip install spotipy pandas
       - name: Run script
-        run: python script.py
+        run: python script2.py
       - name: Print it worked
         run: echo "It's working! Enjoy :)"
