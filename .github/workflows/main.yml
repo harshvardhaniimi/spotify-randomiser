@@ -1,4 +1,4 @@
-name: Create Randomised Spotify Playlist
+name: Create Randomized Spotify Playlist
 on:
   schedule:
     - cron: '0 0 * * MON' # Runs every Monday
