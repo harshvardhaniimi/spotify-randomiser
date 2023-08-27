@@ -13,6 +13,7 @@ See details at https://www.harsh17.in/spotify-randomizer/
 2. **Filtering Songs:** Only the songs that were added to your liked songs more than 90 days ago are considered.
 3. **Weighted Shuffling:** The songs are shuffled with weights according to their age, with older songs being more likely to be selected.
 4. **Creating a Playlist:** A new playlist called "random" is created, and the selected 100 songs are added to it.
+5. **Automate Everything:*** The entire operation is repeated every Monday, so I have a fresh set of songs to listen to every week.
 
 ## Usage
 If you want to use this script, you'll need to make the following modifications:
