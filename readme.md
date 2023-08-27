@@ -6,6 +6,8 @@ This repository contains a Python script that automates the creation of a random
 
 The script is set to run automatically every Monday using GitHub Actions.
 
+See details at https://www.harsh17.in/spotify-randomiser/
+
 ## How It Works
 1. **Fetching Liked Songs:** The script fetches all the songs that you've liked on Spotify.
 2. **Filtering Songs:** Only the songs that were added to your liked songs more than 90 days ago are considered.
