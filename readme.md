@@ -1,4 +1,4 @@
-# Randomized Spotify Playlist Creator
+# Randomised Spotify Playlist Creator
 
 
 ## Overview
