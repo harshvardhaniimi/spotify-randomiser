@@ -1,4 +1,4 @@
-# Randomised Spotify Playlist Creator
+# Randomized Spotify Playlist Creator
 
 
 ## Overview
@@ -6,7 +6,7 @@ This repository contains a Python script that automates the creation of a random
 
 The script is set to run automatically every Monday using GitHub Actions.
 
-See details at https://www.harsh17.in/spotify-randomiser/
+See details at https://www.harsh17.in/spotify-randomizer/
 
 ## How It Works
 1. **Fetching Liked Songs:** The script fetches all the songs that you've liked on Spotify.
